@@ -2,7 +2,6 @@
 import dropbox
 
 class BoxTaper(object):
-    TOKEN_FILE = "token_store.txt"
 
     def __init__(self, key, secret):
         self.app_key      = key
