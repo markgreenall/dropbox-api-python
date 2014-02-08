@@ -7,7 +7,7 @@ class BoxTaper(object):
 
         try:
             if key is '' or secret is "":
-                raise Exception
+                raise ValueError
 
             self.app_key      = key
             self.app_secret   = secret
@@ -15,8 +15,8 @@ class BoxTaper(object):
             self.access_token_file = 'OAuth.token'
             self.client       = ''
 
-        except Exception:
-                print 'FAIL: You must set both the app_key and the app_secret'
+        except ValueError:
+                print "FAIL: You must set both the app_key and the app_secret"
                 exit()
 
     """ Authenticate the API """
@@ -47,7 +47,7 @@ class BoxTaper(object):
                 code = raw_input("Enter the authorization code here: ").strip()
 
                 if code is "":
-                    raise Exception
+                    raise ValueError
 
                 """ Finish flow """
                 access_token, user_id = flow.finish(code)
@@ -63,11 +63,11 @@ class BoxTaper(object):
                         print "PASS: Written Key to Token File"
 
                 except IOError:
-                    print 'FAIL: Could not save the OAuth token into the configured file.'
+                    print "FAIL: Could not save the OAuth token into the configured file."
                     exit()
 
-            except Exception:
-                print 'FAIL: You did not provide an authorisation code.'
+            except ValueError:
+                print "FAIL: You did not provide an authorisation code."
                 exit()
 
     """ Instantiate the client """
@@ -88,13 +88,34 @@ class BoxTaper(object):
     def put_file(self, contents, file_name):
         try:
             if contents is "" or file_name is "":
-                raise Exception
+                raise ValueError
 
             response = self.client.put_file(file_name, contents)
-            print "RESPONSE:\n", response, "\n"
+            print "RESPONSE: ", response
+            print "PASS: File has been uploaded."
 
-        except Exception:
-            print 'FAIL: You must specify some content, and the file name in which to save it.'
+        except ValueError:
+            print "FAIL: You must specify some content, and the file name in which to save it."
+            exit()
+
+    """ Let's put a test file in the Dropbox """
+    def get_file(self, file_name):
+        try:
+            if file_name is "":
+                raise ValueError
+
+            try:
+                out = open(file_name, 'wb')
+                with self.client.get_file(file_name) as f:
+                    out.write(f.read())
+                print "PASS: File has been downloaded and saved."
+
+            except IOError:
+                print "FAIL: There was a problem writing the downloaded file to disk."
+                exit()
+
+        except ValueError:
+            print "FAIL: You must specify a file_name in which to get."
             exit()
 
 
@@ -107,8 +128,12 @@ engine = BoxTaper(app_key, app_secret)
 """ Negotaite the authentication and client creation """
 engine.negotiate()
 
-""" Upload some test text """
-contents  = 'Hello this is a test'
+""" Define an test filename """
 file_name = "BoxTaper_TEST1.txt"
-engine.put_file(contents, file_name)
+
+""" Upload some test text """
+engine.put_file("Hello this is a test", file_name)
+
+""" Download the file  and save it """
+engine.get_file(file_name)
 
