@@ -8,9 +8,16 @@ Example of using the Dropbox Python SDK to connect and store a file.
 + Python 2 / 3
 + Dropbox Python API SDK
 
-### Instantiate the class
+### Initialise!
+To get started we want to instantiate the class and negotiate a connection.
 
-    engine = BoxTaper(app_key, app_secret)
+    from btConnector import connector
+
+    app_key    = '04qs1wgvgn99a7d'
+    app_secret = 'assbqqncsu0ts6i'
+
+    """ Instantiate Flow """
+    instance = connector(app_key, app_secret)
 
 ### Authenticate & Instantiate
 You can run the negotiate function which will auhenticate and then create the flow object, like so...
@@ -22,15 +29,19 @@ You can run the negotiate function which will auhenticate and then create the fl
     engine.authenticate()
     engine.instantiate()
 
-### Upload a File
-You will once authenticated want to upload a file...
+### Instantiate the Datastore Object
+    datastore = instance.datastore
 
-    engine.put_file(file_contents, file_name)
+### Perform actions on the datastore
 
-### Download a File
-You might also want to download a file...
+    # Define an test filename
+    file_name = "BoxTaper_TEST1.txt"
 
-    engine.get_file(file_name)
+    # Upload a file...
+    datastore.put_file("Hello this is a test", file_name)
+
+    # Download a file...
+    datastore.get_file(file_name)
 
 ## Information
 
