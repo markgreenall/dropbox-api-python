@@ -13,7 +13,8 @@ Documentation
 
 Instantiate the class
 ---------------------
-engine = BoxTaper(app_key, app_secret)
+
+    engine = BoxTaper(app_key, app_secret)
 
 Authenticate & Instantiate
 --------------------------
