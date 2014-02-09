@@ -48,6 +48,10 @@ You can run the negotiate function which will auhenticate and then create the fl
     content = datastore.get_file_contents(file_name)
     print "FILE CONTENTS: %s" % (content)
 
+### Get the account details for the authenticated user
+
+    print datastore.getAccountDetails()
+
 ## Information
 
 ### Token Storage
