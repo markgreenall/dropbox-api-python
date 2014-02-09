@@ -8,9 +8,11 @@ instance = connector(app_key, app_secret)
 instance.negotiate() # Negotaite the authentication and client creation
 
 """ Perform some file operations """
+
+# Instantiate the datastore object...
 datastore = instance.datastore
 
-# Define an test filename
+# Define test filenames...
 file_name  = "BoxTaper_TEST1.txt"
 local_file = "myTest.txt"
 
@@ -21,5 +23,10 @@ datastore.put_file("Hello this is a test", file_name)
 datastore.get_file(local_file, file_name)
 
 # Download a file's contents...
-content1 = datastore.get_file_contents(file_name)
-print "FILE CONTENTS: %s" % (content1)
+content = datastore.get_file_contents(file_name)
+print "FILE CONTENTS: %s" % (content)
+
+# Create and delete a folder...
+remote_folder = "WoopWoopTest"
+datastore.create_folder(remote_folder)
+datastore.delete_folder(remote_folder)

@@ -32,25 +32,74 @@ You can run the negotiate function which will auhenticate and then create the fl
 ### Instantiate the Datastore Object
     datastore = instance.datastore
 
+### Get the account details for the authenticated user
+Note the it's the instance object that is used to get this information.
+
+    print instance.getAccountDetails()
+
 ### Perform actions on the datastore
+
+#### Upload a file
+Provides a response from the Dropbox API but you don't need to capture this.
 
     # Define test filenames...
     file_name  = "BoxTaper_TEST1.txt"
-    local_file = "myTest.txt"
 
     # Upload a file...
     datastore.put_file("Hello this is a test", file_name)
 
+Important: This will NOT fail if the remote resource already exists, it will simply overwrite the destination file.
+
+#### Download a file
+Does not provide a response, instead saves the file to the local_file destination.
+
+    # Define test filenames...
+    local_file = "myTest.txt"
+    file_name  = "BoxTaper_TEST1.txt"
+
     # Download a file...
     datastore.get_file(local_file, file_name)
+
+Important: This may fail if the remote resource does not exist.
+
+#### Download a file's content
+Provides response with the contents of the file.
+
+    # Define test filenames...
+    file_name  = "BoxTaper_TEST1.txt"
 
     # Download a file's contents...
     content = datastore.get_file_contents(file_name)
     print "FILE CONTENTS: %s" % (content)
 
-### Get the account details for the authenticated user
+Important: This may error if the remote resource does not exist.
 
-    print datastore.getAccountDetails()
+#### Delete a file
+This function provides a Dropbox API response, you don't need to capture this, it will work asychronously.
+
+    # Delete a file...
+    remote_file = "myTest.txt"
+    datastore.delete_file(remote_file)
+
+Important: This may error if the remote resource does not exist, it cannot delete something which doesn't exist, so fails.
+
+#### Create a folder
+This function provides a Dropbox API response, you don't need to capture this, it will work asychronously.
+
+    # Create a folder...
+    remote_folder = "myTestFolder"
+    datastore.create_folder(remote_folder)
+
+Important: This may error if the remote resource already exists, it cannot create something which already exists, so fails.
+
+#### Delete a folder
+This function provides a Dropbox API response, you don't need to capture this, it will work asychronously.
+
+    # Delete a folder...
+    remote_folder = "myTestFolder"
+    datastore.delete_folder(remote_folder)
+
+Important: This may error if the remote resource does not exist, it cannot delete something which doesn't exist, so fails.
 
 ## Information
 
