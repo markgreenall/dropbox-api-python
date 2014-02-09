@@ -11,7 +11,7 @@ Example of using the Dropbox Python SDK to connect and store a file.
 ### Initialise!
 To get started we want to instantiate the class and negotiate a connection.
 
-    from btConnector import connector
+    from boxtaper.core import connector
 
     app_key    = '04qs1wgvgn99a7d'
     app_secret = 'assbqqncsu0ts6i'
