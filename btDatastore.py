@@ -25,7 +25,7 @@ class datastore(object):
             exit()
 
     """ Let's put a test file in the Dropbox """
-    def get_file(self, file_name):
+    def get_file(self, local_file, remote_file):
 
         try:
             client = self.client() # Get the client object
@@ -34,14 +34,41 @@ class datastore(object):
             exit()
 
         try:
-            if file_name is "":
+            if local_file is "" or remote_file is "":
                 raise ValueError
 
             try:
-                out = open(file_name, 'wb')
-                with client.get_file(file_name) as f:
+                out = open(local_file, 'wb')
+                with client.get_file(remote_file) as f:
                     out.write(f.read())
                 print "PASS: File has been downloaded and saved."
+
+            except IOError:
+                print "FAIL: There was a problem writing the downloaded file to disk."
+                exit()
+
+        except ValueError:
+            print "FAIL: You must specify a file_name in which to get."
+            exit()
+
+    """ Let's put a test file in the Dropbox """
+    def get_file_contents(self, remote_file):
+
+        try:
+            client = self.client() # Get the client object
+        except Exception:
+            print 'FAIL: Could not get the client object.'
+            exit()
+
+        try:
+            if remote_file is "":
+                raise ValueError
+
+            try:
+                with client.get_file(remote_file) as f:
+                    content = f.read()
+                print "PASS: File has been downloaded and saved."
+                return content
 
             except IOError:
                 print "FAIL: There was a problem writing the downloaded file to disk."

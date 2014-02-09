@@ -34,14 +34,19 @@ You can run the negotiate function which will auhenticate and then create the fl
 
 ### Perform actions on the datastore
 
-    # Define an test filename
-    file_name = "BoxTaper_TEST1.txt"
+    # Define test filenames...
+    file_name  = "BoxTaper_TEST1.txt"
+    local_file = "myTest.txt"
 
     # Upload a file...
     datastore.put_file("Hello this is a test", file_name)
 
     # Download a file...
-    datastore.get_file(file_name)
+    datastore.get_file(local_file, file_name)
+
+    # Download a file's contents...
+    content = datastore.get_file_contents(file_name)
+    print "FILE CONTENTS: %s" % (content)
 
 ## Information
 

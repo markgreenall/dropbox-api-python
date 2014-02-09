@@ -11,11 +11,15 @@ instance.negotiate() # Negotaite the authentication and client creation
 datastore = instance.datastore
 
 # Define an test filename
-file_name = "BoxTaper_TEST1.txt"
+file_name  = "BoxTaper_TEST1.txt"
+local_file = "myTest.txt"
 
 # Upload a file...
 datastore.put_file("Hello this is a test", file_name)
 
 # Download a file...
-datastore.get_file(file_name)
+datastore.get_file(local_file, file_name)
 
+# Download a file's contents...
+content1 = datastore.get_file_contents(file_name)
+print "FILE CONTENTS: %s" % (content1)
